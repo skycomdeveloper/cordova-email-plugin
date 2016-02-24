@@ -119,8 +119,13 @@ public class EmailComposer extends CordovaPlugin {
 
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
-                cordova.startActivityForResult(
-                        plugin, Intent.createChooser(draft, "Select Email App"), 0);
+				String pkg = draft.getPackage();
+				// if package name is defined and the app is available, start the app without email chooser
+                if(pkg != null) {
+                    cordova.getActivity().startActivity(draft);
+                }else {
+                    cordova.startActivityForResult(plugin, Intent.createChooser(draft, "Select Email App"), 0);
+                }
             }
         });
     }
