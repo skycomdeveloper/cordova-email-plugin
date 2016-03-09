@@ -33,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
@@ -540,7 +541,8 @@ public class EmailComposer extends CordovaPlugin {
 
         try {
             pm.getPackageInfo(id, 0);
-            return true;
+			ApplicationInfo ai = pm.getApplicationInfo(id, 0);
+            return ai != null || ai.enabled;
         } catch(PackageManager.NameNotFoundException e) {
             return false;
         }
